@@ -20,6 +20,7 @@ if __name__ == "__main__":
     icon = QIcon(WINDOW_ICON_PATH_STR)
 
     window.setWindowIcon(icon)
+    app.setWindowIcon(icon)
 
     # Info
 
