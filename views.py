@@ -177,7 +177,7 @@ class ButtonGrid(QGridLayout):
         self.info.setText(value)
 
     def _make_grid(self):
-        self.display.del_pressed.connect(self.display.backspace)
+        self.display.del_pressed.connect(self._backspace)
         self.display.eq_pressed.connect(self._eq)
         self.display.clear_pressed.connect(self._clear)
         self.display.input_pressed.connect(self._insert_to_display)
@@ -245,6 +245,7 @@ class ButtonGrid(QGridLayout):
             return
 
         self.display.insert(text)
+        self.display.setFocus()
 
     @Slot()
     def _clear(self):
@@ -253,12 +254,14 @@ class ButtonGrid(QGridLayout):
         self._op = None
         self.equation = self._equation_initial_value
         self.display.clear()
+        self.display.setFocus()
 
     @Slot()
     def _config_left_op(self, text):
         display_text = self.display.text()  # Deverá ser meu número _left
 
         self.display.clear()
+        self.display.setFocus()
 
         # Se a pessoa clicou no operador sem
         # configurar um número
@@ -322,6 +325,12 @@ class ButtonGrid(QGridLayout):
         self.info.setText(f"{self.equation} = {result}")
 
         self.display.clear()
+        self.display.setFocus()
+
+    @Slot()
+    def _backspace(self):
+        self.display.backspace()
+        self.display.setFocus()
 
     def _make_dialog(self, text):
         msg_box = self.window.make_msg_box()
@@ -332,11 +341,13 @@ class ButtonGrid(QGridLayout):
         msg_box = self._make_dialog(text)
         msg_box.setIcon(msg_box.Icon.Critical)
         msg_box.exec()
+        self.display.setFocus()
 
     def _show_info(self, text):
         msg_box = self.window.make_msg_box(text)
         msg_box.setIcon(msg_box.Icon.Information)
         msg_box.exec()
+        self.display.setFocus()
 
 
 if __name__ == "__main__":
