@@ -274,7 +274,7 @@ class ButtonGrid(QGridLayout):
         if self._left is None:
             self._left = convert_to_number(display_text)
 
-        if self._left and self._op and is_valid_number(display_text):
+        if self._left is not None and self._op and is_valid_number(display_text):
             self._right = convert_to_number(display_text)
             result = self._calc_result(self._left, self._op, self._right)
             self.info.setText(f"{self.equation} = {result}")
